@@ -21,7 +21,7 @@ public class App {
 		// Creating a new entity
 		Animal animal = new Animal();
 		animal.setaHeight(11);
-		animal.setaWeight(30);
+		// animal.setaWeight(30);
 		animal.setaName("Scooby");
 		animal.setaType("Dog");
 		animal.setaId(0);
@@ -34,15 +34,26 @@ public class App {
 		session.save(animal);
 		// employee = session.get(Employee.class, 0);
 		tx.commit();
-
+		session.close();
 		// Fetching using session.get
-		Animal fetchedAnimal = session.get(Animal.class, 1);
+		// Automatic First level cache in the same session
+		Session session1 = sf.openSession();
+		Animal fetchedAnimal = session1.get(Animal.class, 1);
+		Animal fetchedAnimal2 = session1.get(Animal.class, 1);
 		System.out.println(fetchedAnimal);
+		System.out.println(fetchedAnimal2);
+		session.close();
 
+		// Making sure the same select query wont be asking from the database again
+		// because
+		// we have implemented second level cache using ehcache
+		Session session2 = sf.openSession();
+		Animal fetchedAnimal3 = session2.get(Animal.class, 1);
+		System.out.println(fetchedAnimal3);
 		// Removing using session.remove
 		// Make sure that an animal with aid = 0 exists
 		tx = session.beginTransaction();
-		session.remove(session.get(Animal.class, 0));
+		session.remove(session.get(Animal.class, 5));
 		tx.commit();
 
 	}

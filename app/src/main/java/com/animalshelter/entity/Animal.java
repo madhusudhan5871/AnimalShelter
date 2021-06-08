@@ -1,12 +1,20 @@
 package com.animalshelter.entity;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import com.sun.istack.NotNull;
+
 @Entity
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class Animal {
 	
 	@Id
@@ -19,6 +27,7 @@ public class Animal {
 	@Column
 	private float aHeight;
 	@Column
+	@NotNull
 	private float aWeight;
 	
 	public int getaId() {
