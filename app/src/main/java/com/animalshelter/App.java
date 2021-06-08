@@ -17,35 +17,33 @@ public class App {
 
 	public static void main(String[] args) {
 		System.out.println(new App().getGreeting());
-		
-		//Creating a new entity
+
+		// Creating a new entity
 		Animal animal = new Animal();
 		animal.setaHeight(11);
 		animal.setaWeight(30);
 		animal.setaName("Scooby");
 		animal.setaType("Dog");
 		animal.setaId(0);
-		
-		//Saving using session.save
+
+		// Saving using session.save
 		Configuration config = new Configuration().configure().addAnnotatedClass(Animal.class);
-        SessionFactory sf = config.buildSessionFactory();
-        Session session = sf.openSession();
-        Transaction tx = session.beginTransaction();
-        session.save(animal);
-        //employee = session.get(Employee.class, 0);
-        tx.commit();
-        
-        
-        //Fetching using session.get
-        Animal fetchedAnimal = session.get(Animal.class, 1);
-        System.out.println(fetchedAnimal);
-        
-        
-        //Removing using session.remove
-        //Make sure that an animal with aid = 0 exists
-        tx = session.beginTransaction();
-        session.remove(session.get(Animal.class, 0));
-        tx.commit();
-		
+		SessionFactory sf = config.buildSessionFactory();
+		Session session = sf.openSession();
+		Transaction tx = session.beginTransaction();
+		session.save(animal);
+		// employee = session.get(Employee.class, 0);
+		tx.commit();
+
+		// Fetching using session.get
+		Animal fetchedAnimal = session.get(Animal.class, 1);
+		System.out.println(fetchedAnimal);
+
+		// Removing using session.remove
+		// Make sure that an animal with aid = 0 exists
+		tx = session.beginTransaction();
+		session.remove(session.get(Animal.class, 0));
+		tx.commit();
+
 	}
 }
