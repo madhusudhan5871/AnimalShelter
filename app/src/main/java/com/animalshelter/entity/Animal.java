@@ -6,11 +6,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import com.sun.istack.NotNull;
 
 @Entity
 @Cacheable
@@ -27,11 +26,18 @@ public class Animal {
 	@Column
 	private float aHeight;
 	@Column
-	@NotNull
 	private float aWeight;
+	@ManyToOne
+	private Cage cage;
 	
 	public int getaId() {
 		return aId;
+	}
+	public Cage getCage() {
+		return cage;
+	}
+	public void setCage(Cage cage) {
+		this.cage = cage;
 	}
 	public void setaId(int aId) {
 		this.aId = aId;
@@ -64,7 +70,7 @@ public class Animal {
 	@Override
 	public String toString() {
 		return "Animal [aId=" + aId + ", aName=" + aName + ", aType=" + aType + ", aHeight=" + aHeight + ", aWeight="
-				+ aWeight + "]";
+				+ aWeight + ", cage=" + cage + "]";
 	}
 	
 	

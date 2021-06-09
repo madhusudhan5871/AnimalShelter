@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 import com.animalshelter.entity.Animal;
+import com.animalshelter.entity.Cage;
 
 public class App {
 	public String getGreeting() {
@@ -19,18 +20,23 @@ public class App {
 		System.out.println(new App().getGreeting());
 
 		// Creating a new entity
+		Cage cage = new Cage();
+		cage.setDimensions(1200);
+
 		Animal animal = new Animal();
 		animal.setaHeight(11);
 		// animal.setaWeight(30);
 		animal.setaName("Scooby");
 		animal.setaType("Dog");
-		animal.setaId(0);
+		animal.setCage(cage);
 
 		// Saving using session.save
-		Configuration config = new Configuration().configure().addAnnotatedClass(Animal.class);
+		Configuration config = new Configuration().configure().addAnnotatedClass(Animal.class)
+				.addAnnotatedClass(Cage.class);
 		SessionFactory sf = config.buildSessionFactory();
 		Session session = sf.openSession();
 		Transaction tx = session.beginTransaction();
+		session.save(cage);
 		session.save(animal);
 		// employee = session.get(Employee.class, 0);
 		tx.commit();
@@ -38,8 +44,8 @@ public class App {
 		// Fetching using session.get
 		// Automatic First level cache in the same session
 		Session session1 = sf.openSession();
-		Animal fetchedAnimal = session1.get(Animal.class, 1);
-		Animal fetchedAnimal2 = session1.get(Animal.class, 1);
+		Animal fetchedAnimal = session1.get(Animal.class, 22);
+		Animal fetchedAnimal2 = session1.get(Animal.class, 22);
 		System.out.println(fetchedAnimal);
 		System.out.println(fetchedAnimal2);
 		session.close();
@@ -52,9 +58,9 @@ public class App {
 		System.out.println(fetchedAnimal3);
 		// Removing using session.remove
 		// Make sure that an animal with aid = 0 exists
-		tx = session.beginTransaction();
-		session.remove(session.get(Animal.class, 5));
-		tx.commit();
+		// tx = session.beginTransaction();
+		// session.remove(session.get(Animal.class, 5));
+		// tx.commit();
 
 	}
 }
